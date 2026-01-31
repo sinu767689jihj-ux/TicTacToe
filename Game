@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+class TicTacToe {
+
+    char[][] board = new char[3][3];
+    char player = 'X';
+    Scanner sc = new Scanner(System.in);
+
+    // Constructor
+    TicTacToe() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                board[row][col] = ' ';
+            }
+        }
+    }
+
+    void playGame() {
+        boolean gameOver = false;
+
+        while (!gameOver) {
+            printBoard();
+            System.out.print("Player " + player + " enter row and column: ");
+            int row = sc.nextInt();
+            int col = sc.nextInt();
+
+            if (board[row][col] == ' ') {
+                board[row][col] = player;
+
+                gameOver = haveWon(player);
+                if (gameOver) {
+                    printBoard();
+                    System.out.println("Player " + player + " has WON 🎉");
+                } else {
+                    player = (player == 'X') ? 'O' : 'X';
+                }
+            } else {
+                System.out.println("Invalid move! Try again.");
+            }
+        }
+    }
+
+    void printBoard() {
+        System.out.println("-------------");
+        for (int row = 0; row < 3; row++) {
+            System.out.print("| ");
+            for (int col = 0; col < 3; col++) {
+                System.out.print(board[row][col] + " | ");
+            }
+            System.out.println("\n-------------");
+        }
+    }
+
+    boolean haveWon(char p) {
+
+        // Rows
+        for (int row = 0; row < 3; row++) {
+            if (board[row][0] == p && board[row][1] == p && board[row][2] == p)
+                return true;
+        }
+
+        // Columns
+        for (int col = 0; col < 3; col++) {
+            if (board[0][col] == p && board[1][col] == p && board[2][col] == p)
+                return true;
+        }
+
+        // Diagonals
+        if (board[0][0] == p && board[1][1] == p && board[2][2] == p)
+            return true;
+
+        if (board[0][2] == p && board[1][1] == p && board[2][0] == p)
+            return true;
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        TicTacToe game = new TicTacToe();
+        game.playGame();
+    }
+}
